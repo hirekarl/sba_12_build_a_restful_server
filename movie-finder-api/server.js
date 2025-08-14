@@ -1,24 +1,31 @@
-require("dotenv").config()
-
 const express = require("express")
 
-const searchMovies = require("./controllers/movieController")
-const getMovieDetails = require("./controllers/movieController")
+const {
+  searchMovies,
+  getMovieDetails,
+} = require("./controllers/movieController.js")
 
 const PORT = 3001
-const OMDB_API_KEY = process.env.OMDB_API_KEY
 
 const app = express()
 
 // Routes
-app.route("/api/search", (req, res) => {
-  searchMovies()
-  res.send("<p>/api/search</p>")
+app.get("/", (req, res) => {
+  res.send(
+    "<p>Why don't you try <a href='/api/search?title=Dune'>searching for a movie</a>?</p>"
+  )
 })
 
-app.route("/api/movies/:id", (req, res) => {
-  getMovieDetails()
-  res.send("<p>/api/movies/:id</p>")
+app.get("/api/search", async (req, res) => {
+  const query = req.query.title
+  const results = await searchMovies(query)
+  res.send(results)
+})
+
+app.get("/api/movies/:id", async (req, res) => {
+  const id = req.params.id
+  const details = await getMovieDetails(id)
+  res.send(details)
 })
 
 // Listen
