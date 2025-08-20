@@ -7,7 +7,6 @@ const OMDB_API_KEY = process.env.OMDB_API_KEY
 const ENDPOINT = `http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&`
 
 const searchMovies = async (title) => {
-  console.log(`API Key: ${OMDB_API_KEY}`)
   const url = `${ENDPOINT}t=${title}`
 
   try {
