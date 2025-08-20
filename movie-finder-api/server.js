@@ -1,19 +1,21 @@
 require("dotenv").config()
+const path = require("path")
 
 const express = require("express")
-
-const movieRoutes = require("./routes/movieRoutes")
-const rootRoute = require("./routes/rootRoute")
-
-const PORT = process.env.PORT || 3000
-
 const app = express()
 
+const rootRoute = require("./routes/rootRoute")
+const movieRoutes = require("./routes/movieRoutes")
+
 // Middleware
-app.use("/api", movieRoutes)
+app.use(express.static(path.join(__dirname, "public")))
+
 app.use("/", rootRoute)
+app.use("/api", movieRoutes)
 
 // Listen
+const PORT = process.env.PORT || 3001
+
 app.listen(PORT, () => {
   console.log(`Server started at http://localhost:${PORT}`)
 })
