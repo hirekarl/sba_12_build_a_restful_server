@@ -20,13 +20,17 @@ cd movie-finder-api && npm i && npm run dev
 Top-level application behavior can be found in [`./movie-finder-api/server.js`](./movie-finder-api/server.js).
 
 ### Reflection
-> At first, I was unclear on how to split the routing from the controlling, but the module material was really helpful in helping get my head around the separation of concerns.
+> **N.B.:** This server expects `.env` to be a child to the directory [`./movie-finder-api/`](./movie-finder-api/).
+> 
+> At first, I was unclear on how to split the routing from the controlling, but the lesson material was really helpful in helping get my head around the separation of concerns.
 > 
 > I implemented a root route, http://localhost:3001/, that serves user-friendly links to:
 > - http://localhost:3001/api/search?title=batman
 > - http://localhost:3001/api/movies/tt0372784
 >
-> In the case of search results, my API returns the results of the `Search` property of the `response.data` object; i.e., the response is an array of movie objects, rather than a single object with a key of `Search`. Both the title search and ID search constrain results to those of type `movie`.
+> In the case of search results, my API returns the results of the `Search` property of the `response.data` object; i.e., the response is an array of movie objects, rather than a single object with a key of `Search`.
+> 
+> Both the title search and ID search constrain results to items of type `movie`.
 
 ## Assignment
 You are a junior backend developer at a new startup creating a movie review website. Your first major task is to build the core of the backend: a “Movie Finder” API. This API will not store any data itself; instead, it will act as an intermediary, fetching movie information from a public, external movie database. Your API will then provide cleaned-up, relevant data to the future front-end application.
