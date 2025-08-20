@@ -6,28 +6,28 @@ const axios = require("axios")
 const OMDB_API_KEY = process.env.OMDB_API_KEY
 const ENDPOINT = `http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&`
 
-const searchMovies = async (title) => {
-  const url = `${ENDPOINT}t=${title}`
-
+const runRequest = async (res, url) => {
   try {
     const response = await axios.get(url)
-    return response.data
+    res.send(response.data)
   } catch (error) {
     console.error(error)
-    return "<p>Oops! There was an error. Check the console for details.</p>"
+    res.send("<p>Oops! There was an error. Check the console for details.</p>")
   }
 }
 
-const getMovieDetails = async (id) => {
+const searchMovies = async (req, res) => {
+  const title = req.query.title
+  const url = `${ENDPOINT}t=${title}`
+
+  await runRequest(res, url)
+}
+
+const getMovieDetails = async (req, res) => {
+  const id = req.params.id
   const url = `${ENDPOINT}i=${id}`
 
-  try {
-    const response = await axios.get(url)
-    return response.data
-  } catch (error) {
-    console.error(error)
-    return "<p>Oops! There was an error. Check the console for details.</p>"
-  }
+  await runRequest(res, url)
 }
 
 module.exports = { searchMovies, getMovieDetails }

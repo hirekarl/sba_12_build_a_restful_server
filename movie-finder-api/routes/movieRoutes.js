@@ -1,18 +1,13 @@
 const express = require("express")
 const router = express.Router()
 
-const movieController = require("../controllers/movieController")
+const {
+  searchMovies,
+  getMovieDetails,
+} = require("../controllers/movieController")
 
-router.get("/search", async (req, res) => {
-  const query = req.query.title
-  const results = await movieController.searchMovies(query)
-  res.send(results)
-})
+router.get("/search", searchMovies)
 
-router.get("/movies/:id", async (req, res) => {
-  const id = req.params.id
-  const details = await movieController.getMovieDetails(id)
-  res.send(details)
-})
+router.get("/movies/:id", getMovieDetails)
 
 module.exports = router
