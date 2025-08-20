@@ -4,7 +4,7 @@ require("dotenv").config({ path: path.resolve(__dirname, "../.env") })
 const axios = require("axios")
 
 const OMDB_API_KEY = process.env.OMDB_API_KEY
-const ENDPOINT = `http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&`
+const BASE_URL = `http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&`
 
 const runRequest = async (res, url) => {
   try {
@@ -18,14 +18,14 @@ const runRequest = async (res, url) => {
 
 const searchMovies = async (req, res) => {
   const title = req.query.title
-  const url = `${ENDPOINT}t=${title}`
+  const url = `${BASE_URL}t=${title}`
 
   await runRequest(res, url)
 }
 
 const getMovieDetails = async (req, res) => {
   const id = req.params.id
-  const url = `${ENDPOINT}i=${id}`
+  const url = `${BASE_URL}i=${id}`
 
   await runRequest(res, url)
 }
