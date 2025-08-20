@@ -1,16 +1,16 @@
 require("dotenv").config()
-const path = require("path")
 
 const express = require("express")
-const app = express()
 
-const rootRoute = require("./routes/rootRoute")
 const movieRoutes = require("./routes/movieRoutes")
 
-// Middleware
-app.use(express.static(path.join(__dirname, "public")))
+const { STATIC_ROOT } = require("./utils")
 
-app.use("/", rootRoute)
+const app = express()
+
+// Middleware
+app.use(express.static(STATIC_ROOT))
+
 app.use("/api", movieRoutes)
 
 // Listen
