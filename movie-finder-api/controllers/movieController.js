@@ -6,26 +6,48 @@ const axios = require("axios")
 const OMDB_API_KEY = process.env.OMDB_API_KEY
 const BASE_URL = `http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&`
 
+class APIError extends Error {
+  constructor(message) {
+    super(message)
+    this.name = "APIError"
+  }
+}
+
 const runRequest = async (res, url) => {
   try {
     const response = await axios.get(url)
-    res.send(response.data)
+
+    if ("Search" in response.data) {
+      return res.json(response.data["Search"])
+    } else if ("Error" in response.data) {
+      throw new APIError(response.data["Error"])
+    }
+
+    return res.json(response.data)
   } catch (error) {
-    console.error(error)
-    res.send("<p>Oops! There was an error. Check the console for details.</p>")
+    if (error instanceof APIError) {
+      return res.status(400).json({ error: `${error.name}: ${error.message}` })
+    } else {
+      return res.status(500).json({ error: `${error.name}: ${error.message}` })
+    }
   }
 }
 
 const searchMovies = async (req, res) => {
   const title = req.query.title
-  const url = `${BASE_URL}t=${title}`
+
+  if (!title) {
+    return res.status(400).json({ error: "Title query parameter is required." })
+  }
+
+  const url = `${BASE_URL}s=${title}&type=movie`
 
   await runRequest(res, url)
 }
 
 const getMovieDetails = async (req, res) => {
   const id = req.params.id
-  const url = `${BASE_URL}i=${id}`
+  const url = `${BASE_URL}i=${id}&type=movie`
 
   await runRequest(res, url)
 }
