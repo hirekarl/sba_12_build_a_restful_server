@@ -4,4 +4,4 @@ const serveRoot = (req, res) => {
   )
 }
 
-module.exports = { serveRoot }
+module.exports = serveRoot

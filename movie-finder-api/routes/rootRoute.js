@@ -1,7 +1,7 @@
 const express = require("express")
 const router = express.Router()
 
-const { serveRoot } = require("../controllers/rootController")
+const serveRoot = require("../controllers/rootController")
 
 router.get("/", serveRoot)
 
